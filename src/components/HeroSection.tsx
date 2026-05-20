@@ -24,7 +24,7 @@ export function HeroSection() {
         style={{ y: imgY }}
       >
         <picture>
-          <source media="(min-width: 768px)" srcSet="/hero.webp" />
+          <source media="(min-width: 768px)" srcSet="/hero-desktop.webp" />
           <img
             src="/hero-mobile.webp"
             alt="manuela zárate"

@@ -15,8 +15,8 @@ const FLYER_INDIV_JSON = path.resolve('src/data/flyers-individuales.json');
 const FLYER_COLECT_JSON = path.resolve('src/data/flyers-colectivas.json');
 
 // Hero
-const HERO_SRC = path.resolve('pics/landing ocn sombra.png');
-const HERO_OUT = path.resolve('public/hero.webp');
+const HERO_SRC = path.resolve('pics/670394457_18430436068188344_6106604958696401746_n.webp');
+const HERO_OUT = path.resolve('public/hero-desktop.webp');
 
 function ensureDir(dir) {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });

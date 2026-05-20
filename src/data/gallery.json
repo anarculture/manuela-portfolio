@@ -24,12 +24,6 @@
     "height": 1223
   },
   {
-    "src": "/gallery/img_0180.webp",
-    "alt": "IMG_0180",
-    "width": 1920,
-    "height": 3285
-  },
-  {
     "src": "/gallery/img_0198.webp",
     "alt": "IMG_0198",
     "width": 1920,
@@ -82,6 +76,12 @@
     "alt": "Untitled",
     "width": 1600,
     "height": 910
+  },
+  {
+    "src": "/gallery/whatsapp-image-2026-05-20-at-4.21.15-am.webp",
+    "alt": "WhatsApp Image 2026-05-20 at 4.21.15 AM",
+    "width": 1920,
+    "height": 2560
   },
   {
     "src": "/gallery/_dsc7429baja.webp",
@@ -154,12 +154,6 @@
     "alt": "la torta ",
     "width": 1920,
     "height": 1280
-  },
-  {
-    "src": "/gallery/landing-ocn-sombra.webp",
-    "alt": "landing ocn sombra",
-    "width": 1366,
-    "height": 768
   },
   {
     "src": "/gallery/munda-front-(1).webp",
