@@ -175,6 +175,7 @@ interface ShowEntry {
   title: string;
   gallery: string;
   location: string;
+  catalogUrl?: string;
 }
 
 function ShowsList({ shows }: { shows: ShowEntry[] }) {
@@ -214,6 +215,17 @@ function ShowsList({ shows }: { shows: ShowEntry[] }) {
               {show.location}
             </p>
           )}
+          {show.catalogUrl && (
+            <a
+              href={show.catalogUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-1 text-[#666] hover:text-[#333] transition-colors"
+              style={{ fontFamily: mono, fontSize: monoSize, fontWeight: 400, textDecoration: "underline", textUnderlineOffset: "3px" }}
+            >
+              Catálogo ↗
+            </a>
+          )}
         </motion.div>
       ))}
     </div>
@@ -222,8 +234,8 @@ function ShowsList({ shows }: { shows: ShowEntry[] }) {
 
 export function SoloShowsSection() {
   const shows: ShowEntry[] = [
-    { year: "2024", title: "Picar la torta", gallery: "Galería Beatriz Gil", location: "Caracas, Venezuela" },
-    { year: "2021", title: "El Guiso", gallery: "Galería Abra Caracas", location: "Caracas, Venezuela" },
+    { year: "2024", title: "Picar la torta", gallery: "Galería Beatriz Gil", location: "Caracas, Venezuela", catalogUrl: "http://website-artlogicwebsite1873.artlogic.net/usr/library/documents/catalogo/bg_manuela_z-rate_2024_cat-logo_digital_rgb_final.pdf" },
+    { year: "2021", title: "El Guiso", gallery: "Galería Abra Caracas", location: "Caracas, Venezuela", catalogUrl: "https://abracaracas.com/wp-content/uploads/2021/09/HojaSala_ELGUISO_MANUELAZARATE_WEB.pdf" },
   ];
 
   return (
