@@ -330,15 +330,6 @@ export function Footer() {
         </span>
         <div className="flex gap-6">
           <a
-            href="https://www.instagram.com/manuelazarate_"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[#333] hover:text-[#999] transition-colors"
-            style={{ fontFamily: mono, fontSize: "12px", fontWeight: 400 }}
-          >
-            Instagram
-          </a>
-          <a
             href="mailto:manuelazarateg@gmail.com"
             className="text-[#333] hover:text-[#999] transition-colors"
             style={{ fontFamily: mono, fontSize: "12px", fontWeight: 400 }}

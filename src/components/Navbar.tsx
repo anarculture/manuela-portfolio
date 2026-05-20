@@ -56,12 +56,6 @@ export function Navbar() {
         <div className="flex gap-3 md:gap-5 items-baseline">
           <NavLink href="#obras" label="Obras" color={linkColor} className="md:hidden" />
           <NavLink href="#cv" label="CV" color={linkColor} className="md:hidden" />
-          <NavLink
-            href="https://www.instagram.com/manuelazarate_"
-            label="Instagram"
-            color={linkColor}
-            external
-          />
         </div>
       </nav>
     </header>
