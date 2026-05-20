@@ -1,6 +1,8 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 
+const mono = "'DM Mono', monospace";
+
 export function HeroSection() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -14,9 +16,9 @@ export function HeroSection() {
 
   return (
     <div ref={ref} className="relative w-full h-[85vh] md:h-screen overflow-hidden">
-      {/* Desktop hero — landscape */}
+      {/* Desktop: untitled.webp (landscape), Mobile: portrait sculpture */}
       <motion.picture style={{ y }} className="absolute inset-0 w-full h-full">
-        <source media="(min-width: 768px)" srcSet="/hero.webp" />
+        <source media="(min-width: 768px)" srcSet="/gallery/untitled.webp" />
         <img
           src="/hero-mobile.webp"
           alt="Manuela Zárate"
@@ -24,7 +26,7 @@ export function HeroSection() {
         />
       </motion.picture>
 
-      {/* Subtle vignette — not heavy gradient, just enough for text readability */}
+      {/* Subtle vignette */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -33,7 +35,7 @@ export function HeroSection() {
         }}
       />
 
-      {/* Artist name — editorial, anchored bottom-left */}
+      {/* Artist name — DM Mono bold */}
       <motion.div
         className="absolute bottom-0 left-0 w-full px-5 md:px-10 pb-8 md:pb-12"
         style={{ opacity, y: textY }}
@@ -41,11 +43,11 @@ export function HeroSection() {
         <h1
           className="text-white"
           style={{
-            fontFamily: "'EB Garamond', 'Georgia', serif",
-            fontWeight: 400,
-            fontSize: "clamp(2rem, 5vw, 4.5rem)",
-            lineHeight: 1.05,
-            letterSpacing: "0.02em",
+            fontFamily: mono,
+            fontWeight: 500,
+            fontSize: "clamp(1.6rem, 4vw, 3.2rem)",
+            lineHeight: 1.1,
+            letterSpacing: "-0.01em",
           }}
         >
           Manuela Zárate
@@ -53,7 +55,7 @@ export function HeroSection() {
         <p
           className="text-white/60 mt-2"
           style={{
-            fontFamily: "'DM Mono', monospace",
+            fontFamily: mono,
             fontSize: "11px",
             fontWeight: 400,
             letterSpacing: "0.08em",
