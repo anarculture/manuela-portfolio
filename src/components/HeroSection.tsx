@@ -10,42 +10,46 @@ export function HeroSection() {
     offset: ["start start", "end start"],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
+  const imgY = useTransform(scrollYProgress, [0, 1], ["0%", "8%"]);
 
   return (
-    <div ref={ref} className="relative w-full h-[85vh] md:h-screen overflow-hidden">
-      {/* Desktop: untitled.webp (landscape), Mobile: portrait sculpture */}
-      <motion.picture style={{ y }} className="absolute inset-0 w-full h-full">
-        <source media="(min-width: 768px)" srcSet="/gallery/untitled.webp" />
-        <img
-          src="/hero-mobile.webp"
-          alt="manuela zárate"
-          className="w-full h-full object-cover"
-        />
-      </motion.picture>
-
-      {/* Subtle vignette */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(0,0,0,0.08) 0%, transparent 30%, transparent 55%, rgba(0,0,0,0.45) 100%)",
-        }}
-      />
-
-      {/* Artist name — DM Mono bold */}
+    <div
+      ref={ref}
+      className="relative w-full min-h-screen flex flex-col items-center justify-center px-5 md:px-10 bg-white"
+    >
+      {/* Centered hero image — ~60% viewport */}
       <motion.div
-        className="absolute bottom-0 left-0 w-full px-5 md:px-10 pb-8 md:pb-12"
-        style={{ opacity, y: textY }}
+        className="w-full flex justify-center"
+        style={{ y: imgY }}
+      >
+        <picture>
+          <source media="(min-width: 768px)" srcSet="/hero.webp" />
+          <img
+            src="/hero-mobile.webp"
+            alt="manuela zárate"
+            className="block object-contain"
+            style={{
+              maxWidth: "60vw",
+              maxHeight: "55vh",
+              width: "auto",
+              height: "auto",
+            }}
+          />
+        </picture>
+      </motion.div>
+
+      {/* Name below image */}
+      <motion.div
+        className="mt-6 text-center"
+        style={{ opacity }}
       >
         <h1
-          className="text-white"
+          className="text-[#1a1a1a]"
           style={{
             fontFamily: mono,
             fontWeight: 500,
-            fontSize: "clamp(1.6rem, 4vw, 3.2rem)",
+            fontSize: "clamp(1.4rem, 3vw, 2.4rem)",
             lineHeight: 1.1,
             letterSpacing: "-0.01em",
           }}
@@ -53,7 +57,7 @@ export function HeroSection() {
           manuela zárate
         </h1>
         <p
-          className="text-white/60 mt-2"
+          className="text-[#999] mt-2"
           style={{
             fontFamily: mono,
             fontSize: "11px",
@@ -62,7 +66,7 @@ export function HeroSection() {
             textTransform: "uppercase",
           }}
         >
-          Cerámica · Escultura
+          cerámica · escultura
         </p>
       </motion.div>
     </div>

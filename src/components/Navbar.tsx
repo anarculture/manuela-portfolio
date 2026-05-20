@@ -14,15 +14,16 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const linkColor = scrolled ? "#333" : "rgba(255,255,255,0.9)";
-  const nameColor = scrolled ? "#1a1a1a" : "#fff";
+  const linkColor = "#333";
+  const nameColor = "#1a1a1a";
 
   return (
     <header
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
       style={{
-        backgroundColor: scrolled ? "rgba(255,255,255,0.96)" : "transparent",
-        backdropFilter: scrolled ? "blur(10px)" : "none",
+        backgroundColor: scrolled ? "rgba(255,255,255,0.96)" : "rgba(255,255,255,0.6)",
+        backdropFilter: "blur(10px)",
+        borderBottom: scrolled ? "1px solid #e8e8e8" : "1px solid transparent",
       }}
     >
       <nav className="flex items-baseline justify-between px-4 md:px-8 py-4 md:py-5">

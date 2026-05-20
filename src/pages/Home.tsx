@@ -29,7 +29,7 @@ export default function Gallery() {
 
   // Filter out hero/landing images
   const images = (galleryData as ImageItem[]).filter(
-    (img) => !img.src.includes("landing") && !img.src.includes("untitled")
+    (img) => !img.src.includes("landing")
   );
 
   return (
