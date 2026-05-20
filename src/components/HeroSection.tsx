@@ -39,36 +39,7 @@ export function HeroSection() {
         </picture>
       </motion.div>
 
-      {/* Name below image */}
-      <motion.div
-        className="mt-6 text-center"
-        style={{ opacity }}
-      >
-        <h1
-          className="text-[#1a1a1a]"
-          style={{
-            fontFamily: mono,
-            fontWeight: 500,
-            fontSize: "clamp(1.4rem, 3vw, 2.4rem)",
-            lineHeight: 1.1,
-            letterSpacing: "-0.01em",
-          }}
-        >
-          manuela zárate
-        </h1>
-        <p
-          className="text-[#999] mt-2"
-          style={{
-            fontFamily: mono,
-            fontSize: "11px",
-            fontWeight: 400,
-            letterSpacing: "0.08em",
-            textTransform: "uppercase",
-          }}
-        >
-          cerámica · escultura
-        </p>
-      </motion.div>
+
     </div>
   );
 }
