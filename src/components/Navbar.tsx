@@ -1,88 +1,109 @@
 import { useState, useEffect } from "react";
 
-const mono = "DM Mono, Courier, monospace";
+const mono = "'DM Mono', monospace";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
-      setScrolled(window.scrollY > window.innerHeight * 0.85);
+      setScrolled(window.scrollY > window.innerHeight * 0.7);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const linkColor = scrolled ? "#333" : "rgba(255,255,255,0.9)";
+  const nameColor = scrolled ? "#1a1a1a" : "#fff";
+
   return (
     <header
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
       style={{
-        backgroundColor: scrolled ? "rgba(255,255,255,0.97)" : "transparent",
-        backdropFilter: scrolled ? "blur(8px)" : "none",
+        backgroundColor: scrolled ? "rgba(255,255,255,0.96)" : "transparent",
+        backdropFilter: scrolled ? "blur(10px)" : "none",
       }}
     >
-      <div className="flex justify-between items-start px-4 md:px-10 pt-5 md:pt-8 pb-3 md:pb-4">
-        {/* Name — hidden when over hero (hero has its own big name) */}
+      <nav className="flex items-baseline justify-between px-4 md:px-8 py-4 md:py-5">
+        {/* Name — left */}
         <a
           href="#"
-          onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
-          className="transition-all duration-500"
-          style={{ opacity: scrolled ? 1 : 0, pointerEvents: scrolled ? "auto" : "none" }}
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          className="transition-colors duration-500 shrink-0"
+          style={{
+            fontFamily: "'EB Garamond', Georgia, serif",
+            fontSize: "clamp(14px, 1.8vw, 18px)",
+            fontWeight: 400,
+            color: nameColor,
+            letterSpacing: "0.01em",
+          }}
         >
-          <span
-            className="tracking-[-0.02em]"
-            style={{
-              fontFamily: "Inter, Helvetica, Arial, sans-serif",
-              fontWeight: 900,
-              fontSize: "clamp(1.1rem, 2.5vw, 1.5rem)",
-              lineHeight: 1,
-              color: scrolled ? "#1a1a1a" : "#fff",
-              transition: "color 0.5s",
-            }}
-          >
-            manuela zárate
-          </span>
+          Manuela Zárate
         </a>
 
-        {/* Nav links */}
-        <nav className="flex flex-col items-end gap-0.5 pt-0.5">
-          <a
-            href="#obras"
-            className="transition-colors duration-500"
-            style={{
-              fontFamily: mono,
-              fontSize: "13px",
-              fontWeight: 400,
-              lineHeight: 1.6,
-              color: scrolled ? "#333" : "rgba(255,255,255,0.85)",
-            }}
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById("obras")?.scrollIntoView({ behavior: "smooth" });
-            }}
-          >
-            Obras
-          </a>
-          <a
-            href="#cv"
-            className="transition-colors duration-500"
-            style={{
-              fontFamily: mono,
-              fontSize: "13px",
-              fontWeight: 400,
-              lineHeight: 1.6,
-              color: scrolled ? "#333" : "rgba(255,255,255,0.85)",
-            }}
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById("cv")?.scrollIntoView({ behavior: "smooth" });
-            }}
-          >
-            CV
-          </a>
-        </nav>
-      </div>
+        {/* Center links */}
+        <div className="hidden md:flex gap-5 items-baseline">
+          <NavLink href="#obras" label="Obras" color={linkColor} />
+          <NavLink href="#cv" label="CV" color={linkColor} />
+        </div>
+
+        {/* Right links */}
+        <div className="flex gap-3 md:gap-5 items-baseline">
+          <NavLink href="#obras" label="Obras" color={linkColor} className="md:hidden" />
+          <NavLink href="#cv" label="CV" color={linkColor} className="md:hidden" />
+          <NavLink
+            href="https://www.instagram.com/manuelazarate_"
+            label="Instagram"
+            color={linkColor}
+            external
+          />
+        </div>
+      </nav>
     </header>
+  );
+}
+
+function NavLink({
+  href,
+  label,
+  color,
+  external,
+  className = "",
+}: {
+  href: string;
+  label: string;
+  color: string;
+  external?: boolean;
+  className?: string;
+}) {
+  return (
+    <a
+      href={href}
+      className={`transition-colors duration-500 hover:opacity-60 ${className}`}
+      style={{
+        fontFamily: mono,
+        fontSize: "12px",
+        fontWeight: 400,
+        color,
+        textDecoration: "underline",
+        textUnderlineOffset: "3px",
+        textDecorationColor: "currentColor",
+      }}
+      {...(external
+        ? { target: "_blank", rel: "noopener noreferrer" }
+        : {
+            onClick: (e: React.MouseEvent) => {
+              e.preventDefault();
+              const id = href.replace("#", "");
+              document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+            },
+          })}
+    >
+      {label}
+    </a>
   );
 }

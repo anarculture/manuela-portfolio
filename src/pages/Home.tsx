@@ -1,95 +1,91 @@
 import { motion } from "motion/react";
 import galleryData from "../data/gallery.json";
 
-// Classify by aspect ratio
 type ImageItem = { src: string; alt: string; width: number; height: number };
 
-function classifyImage(img: ImageItem): "landscape" | "portrait" | "square" {
-  const ratio = img.width / img.height;
-  if (ratio > 1.3) return "landscape";
-  if (ratio < 0.75) return "portrait";
-  return "square";
-}
-
-// Build editorial rows: landscape = full width, portraits/squares pair up
-function buildRows(images: ImageItem[]): ImageItem[][] {
-  const rows: ImageItem[][] = [];
-  const queue = [...images];
-  let i = 0;
-
-  while (i < queue.length) {
-    const img = queue[i];
-    const type = classifyImage(img);
-
-    if (type === "landscape") {
-      rows.push([img]);
-      i++;
-    } else {
-      // Try to pair with next non-landscape
-      if (i + 1 < queue.length && classifyImage(queue[i + 1]) !== "landscape") {
-        rows.push([img, queue[i + 1]]);
-        i += 2;
-      } else {
-        rows.push([img]);
-        i++;
-      }
-    }
-  }
-  return rows;
+// Clean up the alt text for display as caption
+function formatCaption(alt: string): string {
+  return alt
+    .replace(/[-_]/g, " ")
+    .replace(/\b(copy|img|maz|webp)\b/gi, "")
+    .replace(/\d{5,}/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 export default function Gallery() {
-  // Filter out the hero/landing image from gallery
-  const filtered = (galleryData as ImageItem[]).filter(
+  // Filter out hero/landing image
+  const images = (galleryData as ImageItem[]).filter(
     (img) => !img.src.includes("landing")
   );
-  const rows = buildRows(filtered);
 
   return (
-    <div className="w-full bg-white py-16 md:py-24 px-3 md:px-8 lg:px-16">
-      <div className="max-w-[1400px] mx-auto flex flex-col gap-3 md:gap-4">
-        {rows.map((row, rowIdx) => (
-          <div
-            key={rowIdx}
-            className={`flex flex-col ${row.length === 2 ? "md:flex-row" : ""} gap-3 md:gap-4`}
-          >
-            {row.map((image, imgIdx) => (
+    <div className="w-full bg-white pt-10 md:pt-16 pb-16 md:pb-24 px-3 md:px-6 lg:px-8">
+      <div
+        className="max-w-[1400px] mx-auto"
+        style={{
+          columnCount: 2,
+          columnGap: "12px",
+        }}
+      >
+        <style>{`
+          @media (min-width: 640px) {
+            .gallery-columns { column-count: 3 !important; }
+          }
+          @media (min-width: 1024px) {
+            .gallery-columns { column-count: 4 !important; }
+          }
+          @media (min-width: 1280px) {
+            .gallery-columns { column-count: 5 !important; }
+          }
+        `}</style>
+        <div
+          className="gallery-columns"
+          style={{
+            columnCount: 2,
+            columnGap: "14px",
+          }}
+        >
+          {images.map((image, index) => {
+            const caption = formatCaption(image.alt);
+            return (
               <motion.div
                 key={image.src}
-                className={`overflow-hidden ${row.length === 2 ? "md:w-1/2" : "w-full"}`}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
+                className="mb-4 break-inside-avoid"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: "-40px" }}
                 transition={{
-                  duration: 0.7,
-                  delay: imgIdx * 0.15,
-                  ease: [0.25, 0.1, 0.25, 1],
+                  duration: 0.5,
+                  delay: (index % 8) * 0.06,
                 }}
               >
-                <div className="relative group">
-                  <img
-                    src={image.src}
-                    alt={image.alt}
-                    className="w-full h-auto object-cover transition-transform duration-700 ease-out"
-                    loading="lazy"
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  className="w-full h-auto block"
+                  loading="lazy"
+                  style={{
+                    aspectRatio: `${image.width} / ${image.height}`,
+                  }}
+                />
+                {caption && (
+                  <p
+                    className="text-[#888] mt-1.5 mb-2"
                     style={{
-                      maxHeight: row.length === 1 ? "75vh" : "60vh",
-                      objectFit: "cover",
+                      fontFamily: "'DM Mono', monospace",
+                      fontSize: "10px",
+                      fontWeight: 400,
+                      lineHeight: 1.4,
                     }}
-                    onMouseEnter={(e) => {
-                      if (window.matchMedia("(hover: hover)").matches) {
-                        (e.target as HTMLElement).style.transform = "scale(1.02)";
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.target as HTMLElement).style.transform = "scale(1)";
-                    }}
-                  />
-                </div>
+                  >
+                    {caption}
+                  </p>
+                )}
               </motion.div>
-            ))}
-          </div>
-        ))}
+            );
+          })}
+        </div>
       </div>
     </div>
   );

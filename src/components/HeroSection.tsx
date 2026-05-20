@@ -8,57 +8,60 @@ export function HeroSection() {
     offset: ["start start", "end start"],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
 
   return (
-    <div ref={ref} className="relative w-full h-screen overflow-hidden bg-black">
-      {/* Parallax background */}
-      <motion.img
-        src="/hero.webp"
-        alt="Manuela Zárate"
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{ y }}
-      />
+    <div ref={ref} className="relative w-full h-[85vh] md:h-screen overflow-hidden">
+      {/* Desktop hero — landscape */}
+      <motion.picture style={{ y }} className="absolute inset-0 w-full h-full">
+        <source media="(min-width: 768px)" srcSet="/hero.webp" />
+        <img
+          src="/hero-mobile.webp"
+          alt="Manuela Zárate"
+          className="w-full h-full object-cover"
+        />
+      </motion.picture>
 
-      {/* Gradient overlay */}
+      {/* Subtle vignette — not heavy gradient, just enough for text readability */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.05) 100%)",
+            "linear-gradient(180deg, rgba(0,0,0,0.08) 0%, transparent 30%, transparent 55%, rgba(0,0,0,0.45) 100%)",
         }}
       />
 
-      {/* Name at bottom */}
+      {/* Artist name — editorial, anchored bottom-left */}
       <motion.div
-        className="absolute bottom-0 left-0 w-full px-6 md:px-10 pb-10 md:pb-16"
-        style={{ opacity }}
+        className="absolute bottom-0 left-0 w-full px-5 md:px-10 pb-8 md:pb-12"
+        style={{ opacity, y: textY }}
       >
         <h1
-          className="text-white tracking-[-0.03em]"
+          className="text-white"
           style={{
-            fontFamily: "Inter, Helvetica, Arial, sans-serif",
-            fontWeight: 900,
-            fontSize: "clamp(2.8rem, 8vw, 7rem)",
-            lineHeight: 0.9,
+            fontFamily: "'EB Garamond', 'Georgia', serif",
+            fontWeight: 400,
+            fontSize: "clamp(2rem, 5vw, 4.5rem)",
+            lineHeight: 1.05,
+            letterSpacing: "0.02em",
           }}
         >
-          manuela
-          <br />
-          zárate
+          Manuela Zárate
         </h1>
-      </motion.div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-6 left-1/2 -translate-x-1/2"
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <div
-          className="w-[1px] h-8 bg-white/50"
-        />
+        <p
+          className="text-white/60 mt-2"
+          style={{
+            fontFamily: "'DM Mono', monospace",
+            fontSize: "11px",
+            fontWeight: 400,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+          }}
+        >
+          Cerámica · Escultura
+        </p>
       </motion.div>
     </div>
   );
