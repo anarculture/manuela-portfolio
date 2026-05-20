@@ -42,7 +42,7 @@ export function Navbar() {
             letterSpacing: "-0.01em",
           }}
         >
-          Manuela Zárate
+          manuela zárate
         </a>
 
         {/* Center links */}

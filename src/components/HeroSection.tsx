@@ -21,7 +21,7 @@ export function HeroSection() {
         <source media="(min-width: 768px)" srcSet="/gallery/untitled.webp" />
         <img
           src="/hero-mobile.webp"
-          alt="Manuela Zárate"
+          alt="manuela zárate"
           className="w-full h-full object-cover"
         />
       </motion.picture>
@@ -50,7 +50,7 @@ export function HeroSection() {
             letterSpacing: "-0.01em",
           }}
         >
-          Manuela Zárate
+          manuela zárate
         </h1>
         <p
           className="text-white/60 mt-2"

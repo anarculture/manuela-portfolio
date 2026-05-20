@@ -326,7 +326,7 @@ export function Footer() {
           className="text-[#999]"
           style={{ fontFamily: mono, fontSize: "11px", fontWeight: 400 }}
         >
-          &copy; {new Date().getFullYear()} Manuela Zárate
+          &copy; {new Date().getFullYear()} manuela zárate
         </span>
         <div className="flex gap-6">
           <a
