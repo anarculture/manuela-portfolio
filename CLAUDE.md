@@ -19,17 +19,17 @@ node scripts/process-images.mjs  # regenerate optimized images + JSON manifests 
 
 ## Architecture
 
-Entry: `src/main.tsx` → `src/app/App.tsx` → `src/components/Layout.tsx`. Layout composes the whole one-page site: `Navbar` + `HeroSection` (both in `src/components/`), the masonry `Gallery` (`src/pages/Home.tsx` — file is named Home but exports `Gallery`), and the CV sections (`BiografiaSection`, `SoloShowsSection`, etc.) from `src/app/components/content-sections.tsx`. Navigation is anchor-scroll only (`#obras`, `#cv`) — no router in use despite react-router being installed.
+Entry: `src/main.tsx` → `src/app/App.tsx` → `src/components/Layout.tsx`. Layout composes the whole one-page site: `Navbar` + `HeroSection` (both in `src/components/`) and the CV sections (`BiografiaSection`, `SoloShowsSection`, etc.) from `src/app/components/content-sections.tsx`. Navigation is anchor-scroll only (`#biografia`, `#exposiciones`, `#ferias`, `#publicaciones`) — no router in use despite react-router being installed.
 
 Two component trees coexist:
-- `src/components/` — the hand-written, live site components.
+- `src/components/` — the hand-written, live site components (`Layout`, `Navbar`, `HeroSection`, `FlyerCarousel`).
 - `src/app/components/` — the Figma Make export. Only `content-sections.tsx` is still used; `gallery-section.tsx`, `hero-section.tsx`, `sticky-header.tsx` and the whole `ui/` (shadcn) + `figma/` dirs are unused legacy. Don't extend them; edit the live tree.
 
 ### Image pipeline
 
-Source images live in `pics/` (gallery at top level, flyers in `pics/flyers/{individuales,colectivas}/`). `scripts/process-images.mjs` converts them with sharp to webp into `public/gallery/` and `public/flyers/`, and writes manifests to `src/data/*.json` (`{src, alt, width, height}`). Components render from those JSON manifests — to add/remove artwork, change `pics/` and re-run the script; never hand-edit `public/` or the JSON. The gallery in `Home.tsx` filters out hero images by filename substring, and captions are derived from filenames (`formatCaption`), so source filenames matter. Hero images (`public/hero-desktop.webp` / `hero-mobile.webp`) are also produced by the script from a hardcoded source path.
+`scripts/process-images.mjs` does two things: converts the hero image (hardcoded source in `pics/`) to `public/hero-desktop.webp`, and builds per-exhibition media. `fotos organizadas por expo/` holds one folder of photos per exhibition plus `flyers/{individuales,colectivas}/`. The `EXPOS` array in the script maps each exhibition slug to its flyer file, photo folder, and optional `extra` images; the script emits `public/expos/<slug>/` (webp) + `src/data/expos.json` (`{flyer, images:[{src,alt,width,height}]}`). Shows in `content-sections.tsx` reference these via their `slug` field (rendered by `ExpoMedia`: static flyer + photo carousel). To add an exhibition: add its folder/flyer, register it in `EXPOS`, re-run the script, and add `slug` to the show entry. Never hand-edit `public/expos/` or the JSON.
 
-Per-exhibition media: `fotos organizadas por expo/` holds one folder of photos per exhibition plus `flyers/{individuales,colectivas}/`. The `EXPOS` array in `scripts/process-images.mjs` maps each exhibition slug to its flyer file and photo folder; the script emits `public/expos/<slug>/` + `src/data/expos.json`. Shows in `content-sections.tsx` reference these via their `slug` field (rendered by `ExpoMedia`: static flyer + photo carousel). To add an exhibition: add its folder/flyer, register it in `EXPOS`, re-run the script, and add `slug` to the show entry.
+(`hero-mobile.webp` is committed but not produced by the script — it's a hand-made crop.)
 
 ### Styling conventions
 
