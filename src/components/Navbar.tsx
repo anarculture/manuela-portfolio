@@ -26,7 +26,7 @@ export function Navbar() {
         borderBottom: scrolled ? "1px solid #e8e8e8" : "1px solid transparent",
       }}
     >
-      <nav className="flex items-baseline justify-between px-4 md:px-8 py-4 md:py-5">
+      <nav className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2 md:gap-0 px-4 md:px-8 py-3 md:py-5">
         {/* Name — left */}
         <a
           href="#"
@@ -46,16 +46,12 @@ export function Navbar() {
           manuela zárate
         </a>
 
-        {/* Center links */}
-        <div className="hidden md:flex gap-5 items-baseline">
-          <NavLink href="#obras" label="Obras" color={linkColor} />
-          <NavLink href="#cv" label="CV" color={linkColor} />
-        </div>
-
-        {/* Right links */}
-        <div className="flex gap-3 md:gap-5 items-baseline">
-          <NavLink href="#obras" label="Obras" color={linkColor} className="md:hidden" />
-          <NavLink href="#cv" label="CV" color={linkColor} className="md:hidden" />
+        {/* Section links */}
+        <div className="flex flex-wrap gap-x-4 gap-y-1 md:gap-5 items-baseline">
+          <NavLink href="#biografia" label="Bio" color={linkColor} />
+          <NavLink href="#exposiciones" label="Exposiciones" color={linkColor} />
+          <NavLink href="#ferias" label="Ferias" color={linkColor} />
+          <NavLink href="#publicaciones" label="Prensa" color={linkColor} />
         </div>
       </nav>
     </header>

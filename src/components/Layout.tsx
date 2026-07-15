@@ -1,6 +1,5 @@
 import { Navbar } from './Navbar';
 import { HeroSection } from './HeroSection';
-import Gallery from '../pages/Home';
 import {
   BiografiaSection,
   EducacionSection,
@@ -17,9 +16,6 @@ export function Layout() {
       <Navbar />
       <HeroSection />
       <main className="w-full">
-        <section id="obras">
-          <Gallery />
-        </section>
         <section id="cv">
           <BiografiaSection />
           <EducacionSection />

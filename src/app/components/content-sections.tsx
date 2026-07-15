@@ -1,7 +1,6 @@
 import { motion } from "motion/react";
 import { FlyerCarousel } from "../../components/FlyerCarousel";
-import flyersIndividuales from "../../data/flyers-individuales.json";
-import flyersColectivas from "../../data/flyers-colectivas.json";
+import expos from "../../data/expos.json";
 
 const mono = "DM Mono, Courier, monospace";
 const monoSize = "13px";
@@ -62,11 +61,9 @@ export function BiografiaSection() {
             lineHeight: 1.7,
           }}
         >
-          Estudió Artes plásticas, mención Cerámica, en la Universidad Experimental
-          de las Artes (UNEARTE). También es técnico medio en la Escuela de Arte
-          Cristóbal Rojas, mención Artes del fuego (2012). Realizó sus pasantías
-          en el Museo de Arte Afroamericano Fundación Nelson Sánchez Chapellín (2011-
-          2012).
+          1994, San Fernando, VE
+          <br />
+          Vive y trabaja entre Caracas – CDMX
         </p>
         <p
           className="text-[#333]"
@@ -77,58 +74,30 @@ export function BiografiaSection() {
             lineHeight: 1.7,
           }}
         >
-          La actual propuesta cerámica de Manuela Zárate (1994) se concibe a partir
-          de narrativas y relatos que trazan nuevas configuraciones formales, las
-          cuales problematizan y cuestionan argumentos recurrentes de la cultura
-          social venezolana: los iconos populares, los estereotipos humanos, la
-          identidad, la historia y el territorio, vistos bajo una óptica
-          particular. Su trabajo traspasa los límites del material para tornarse en
-          objeto escultórico de inmensa expresividad y estética bizarra; en cada
-          planteamiento, humor y sátira se traducen en un sistema de significantes
-          simbólicos que hacen de su quehacer un proyecto singular. El archivo de
-          imágenes y representaciones acumulados por la investigación acuciosa y
-          una curiosidad desbordada quedan impresos en su subconsciente para
-          manifestarse en novedosas estrategias formales y contenidos temáticos,
-          ahora afectados por un presente incierto. Como toda obra que trasciende,
-          la suya emerge ingeniosamente como un manifiesto político y una postura
-          crítica a su entorno y a las demostraciones neocolonialistas.
+          Egresada de artes visuales mención Cerámica (UNEARTE, Caracas 2024). Investiga las intersecciones entre la historia colonial y republicana en las zonas intertropicales americanas, con énfasis en la cerámica, creando un diálogo multimedia que reflexiona críticamente sobre mitos históricos, y acontecimientos contemporáneos.
         </p>
-        <div>
-          <p
-            className="text-[#333]"
-            style={{
-              fontFamily: mono,
-              fontSize: monoSize,
-              fontWeight: 400,
-              lineHeight: 1.7,
-            }}
-          >
-            Ya desde su experiencia académica y posteriormente en su primera muestra
-            individual, <em>El guiso</em> (Abra Caracas, 2021), su planteamiento manifiesta un
-            especial interés por explorar las civilizaciones primigenias
-            latinoamericanas, el influjo de la conquista y los discursos
-            fundacionales del nuevo mundo en la cultura contemporánea venezolana.
-            Configura así una indagación que desde su perspectiva revisa y examina
-            temas transversales sobre nuestro imaginario de riqueza, exuberancia
-            caribeña y territorio salvaje. &ldquo;La investigación &mdash;comenta Manuela&mdash; me ha
-            llevado a crear una relación de múltiples recursos simbólicos y plásticos
-            para desarrollar propuestas que reflexionen sobre las complejas
-            hibridaciones culturales y los desafíos que estas implican para el
-            desarrollo de nuestros países, comunidades, familias e individualidades.&rdquo;
-          </p>
-          <p
-            className="text-[#333] mt-4"
-            style={{
-              fontFamily: mono,
-              fontSize: monoSize,
-              fontWeight: 400,
-              lineHeight: 1.7,
-              textAlign: "right",
-            }}
-          >
-            Ruth Auerbach
-          </p>
-        </div>
+        <p
+          className="text-[#333]"
+          style={{
+            fontFamily: mono,
+            fontSize: monoSize,
+            fontWeight: 400,
+            lineHeight: 1.7,
+          }}
+        >
+          El desarrollo de este cuerpo de trabajo fija su mirada en tótems, venus, relieves y figuras antropomorfas, construyendo un atlas de las migraciones e intercambios simbólicos, la ecología, el cuerpo, lo glocal, y las cosmogonías desde lo femenino.
+        </p>
+        <p
+          className="text-[#333]"
+          style={{
+            fontFamily: mono,
+            fontSize: monoSize,
+            fontWeight: 400,
+            lineHeight: 1.7,
+          }}
+        >
+          Actualmente, está desarrollando una serie de reflexiones alrededor de Potosí, una investigación histórica de la minería en América Latina y su impacto en el paisaje.
+        </p>
       </div>
     </SectionRow>
   );
@@ -176,11 +145,35 @@ interface ShowEntry {
   gallery: string;
   location: string;
   catalogUrl?: string;
+  slug?: keyof typeof expos;
+}
+
+function ExpoMedia({ slug }: { slug: keyof typeof expos }) {
+  const expo = expos[slug];
+  if (!expo || (!expo.flyer && expo.images.length === 0)) return null;
+  return (
+    <div className="flex flex-col md:flex-row gap-5 md:gap-8 mt-4 items-start">
+      {expo.flyer && (
+        <img
+          src={expo.flyer.src}
+          alt={expo.flyer.alt}
+          loading="lazy"
+          className="w-full md:w-[300px] shrink-0 h-auto rounded-sm"
+          style={{ aspectRatio: `${expo.flyer.width} / ${expo.flyer.height}` }}
+        />
+      )}
+      {expo.images.length > 0 && (
+        <div className="flex-1 w-full min-w-0">
+          <FlyerCarousel images={expo.images} />
+        </div>
+      )}
+    </div>
+  );
 }
 
 function ShowsList({ shows }: { shows: ShowEntry[] }) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-10">
       {shows.map((show, i) => (
         <motion.div
           key={i}
@@ -201,12 +194,14 @@ function ShowsList({ shows }: { shows: ShowEntry[] }) {
           >
             {show.title}
           </p>
-          <p
-            className="text-[#333]"
-            style={{ fontFamily: mono, fontSize: monoSize, fontWeight: 400, lineHeight: 1.7 }}
-          >
-            {show.gallery}
-          </p>
+          {show.gallery && (
+            <p
+              className="text-[#333]"
+              style={{ fontFamily: mono, fontSize: monoSize, fontWeight: 400, lineHeight: 1.7 }}
+            >
+              {show.gallery}
+            </p>
+          )}
           {show.location && (
             <p
               className="text-[#333]"
@@ -226,6 +221,7 @@ function ShowsList({ shows }: { shows: ShowEntry[] }) {
               Catálogo ↗
             </a>
           )}
+          {show.slug && <ExpoMedia slug={show.slug} />}
         </motion.div>
       ))}
     </div>
@@ -234,67 +230,46 @@ function ShowsList({ shows }: { shows: ShowEntry[] }) {
 
 export function SoloShowsSection() {
   const shows: ShowEntry[] = [
-    { year: "2024", title: "Picar la torta", gallery: "Galería Beatriz Gil", location: "Caracas, Venezuela", catalogUrl: "http://website-artlogicwebsite1873.artlogic.net/usr/library/documents/catalogo/bg_manuela_z-rate_2024_cat-logo_digital_rgb_final.pdf" },
-    { year: "2021", title: "El Guiso", gallery: "Galería Abra Caracas", location: "Caracas, Venezuela", catalogUrl: "https://abracaracas.com/wp-content/uploads/2021/09/HojaSala_ELGUISO_MANUELAZARATE_WEB.pdf" },
+    { year: "2024", title: "Picar la torta", gallery: "Galería Beatriz Gil", location: "Caracas, Venezuela", catalogUrl: "http://website-artlogicwebsite1873.artlogic.net/usr/library/documents/catalogo/bg_manuela_z-rate_2024_cat-logo_digital_rgb_final.pdf", slug: "picar-la-torta" },
+    { year: "2021", title: "El Guiso", gallery: "Galería Abra Caracas", location: "Caracas, Venezuela", catalogUrl: "https://abracaracas.com/wp-content/uploads/2021/09/HojaSala_ELGUISO_MANUELAZARATE_WEB.pdf", slug: "el-guiso" },
   ];
 
   return (
     <SectionRow label="Exposiciones Individuales" id="exposiciones">
-      <div className="flex flex-col-reverse md:flex-row gap-8 md:gap-10">
-        <div className="md:w-1/2">
-          <ShowsList shows={shows} />
-        </div>
-        <div className="md:w-1/2">
-          <FlyerCarousel images={flyersIndividuales} />
-        </div>
-      </div>
+      <ShowsList shows={shows} />
     </SectionRow>
   );
 }
 
 export function GroupShowsSection() {
   const shows: ShowEntry[] = [
-    { year: "2026", title: "Arqueología de lo encarnado", gallery: "Mooni", location: "Art Week CDMX" },
+    { year: "2026", title: "Arqueología de lo encarnado", gallery: "Mooni", location: "Art Week CDMX", slug: "arqueologia-de-lo-encarnado" },
     { year: "2025", title: "Cerámica Ayer y hoy", gallery: "Galería de Arte Nacional", location: "" },
     { year: "2024", title: "24º Salón Jóvenes Con FIA", gallery: "", location: "" },
     { year: "2024", title: "Materia de fondo", gallery: "Cabinet Gallery", location: "Curaduría Tahia Rivero" },
-    { year: "2023", title: "Subasta 74", gallery: "Sala Mendoza", location: "" },
-    { year: "2023", title: "Concurso de Arte Contemporáneo CREADORAS", gallery: "CAF, Volante Studio y GBG Arts", location: "" },
-    { year: "2022", title: "Autorretratos, Próxima", gallery: "Hacienda la Trinidad", location: "Caracas, Venezuela" },
-    { year: "2019", title: "Tierra de gracia, naturaleza-paisaje-territorio", gallery: "Galería Beatriz Gil", location: "Caracas, Venezuela" },
+    { year: "2023", title: "Subasta 74", gallery: "Sala Mendoza", location: "", slug: "subasta-74" },
+    { year: "2023", title: "Concurso de Arte Contemporáneo CREADORAS", gallery: "CAF, Volante Studio y GBG Arts", location: "", slug: "creadoras" },
+    { year: "2022", title: "Autorretratos, Próxima", gallery: "Hacienda la Trinidad", location: "Caracas, Venezuela", slug: "proxima-autorretratos" },
+    { year: "2019", title: "Tierra de gracia, naturaleza-paisaje-territorio", gallery: "Galería Beatriz Gil", location: "Caracas, Venezuela", slug: "tierra-de-gracia" },
   ];
 
   return (
     <SectionRow label="Exposiciones Colectivas" id="group-shows">
-      <div className="flex flex-col-reverse md:flex-row gap-8 md:gap-10">
-        <div className="md:w-1/2">
-          <ShowsList shows={shows} />
-        </div>
-        <div className="md:w-1/2">
-          <FlyerCarousel images={flyersColectivas} />
-        </div>
-      </div>
+      <ShowsList shows={shows} />
     </SectionRow>
   );
 }
 
 export function FairsSection() {
-  const fairs = [
-    { year: "2025", title: "Feria Temporal Guadalajara" },
-    { year: "2024", title: "Pinta Miami" },
-    { year: "2023", title: "Pinta Miami" },
+  const fairs: ShowEntry[] = [
+    { year: "2025", title: "Feria Temporal Guadalajara", gallery: "", location: "", slug: "temporal-guadalajara" },
+    { year: "2024", title: "Pinta Miami", gallery: "", location: "", slug: "pinta-miami-2024" },
+    { year: "2023", title: "Pinta Miami", gallery: "", location: "" },
   ];
 
   return (
     <SectionRow label="Ferias" id="ferias">
-      <div className="space-y-6">
-        {fairs.map((fair, i) => (
-          <div key={i}>
-            <p className="text-[#333]" style={{ fontFamily: mono, fontSize: monoSize, fontWeight: 400 }}>{fair.year}</p>
-            <p className="text-[#333]" style={{ fontFamily: mono, fontSize: monoSize, fontWeight: 400 }}>{fair.title}</p>
-          </div>
-        ))}
-      </div>
+      <ShowsList shows={fairs} />
     </SectionRow>
   );
 }
